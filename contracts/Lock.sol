@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
 contract Lock {
@@ -21,8 +20,10 @@ contract Lock {
         require(block.timestamp >= unlockTime, "You can't withdraw yet");
         require(msg.sender == owner, "You aren't the owner");
 
-        emit Withdrawal(address(this).balance, block.timestamp);
+        uint balance = address(this).balance; // Store the balance in a local variable
 
-        owner.transfer(address(this).balance);
+        emit Withdrawal(balance, block.timestamp);
+
+        owner.transfer(balance); // Use the stored balance for transfer
     }
 }
